@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimeBlock — 2-Cycle System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><h1>TimeBlock</h1><small>2-Cycle System</small></div>
+  <div class="clockbox">
+    <div id="clock">--:--:--</div>
+    <div id="date"></div>
+    <button id="loc" class="link" type="button">Enable location</button>
+  </div>
+  <nav class="actions">
+    <button id="btnAdd" class="primary" type="button">+ New block</button>
+    <button id="btnPerf" type="button">Performance</button>
+    <button id="btnData" type="button">Data</button>
+    <button id="btnTheme" type="button" aria-label="Toggle dark or light mode">Theme</button>
+  </nav>
+</header>
+
+<main>
+  <section id="dashView">
+    <div id="summary" class="summary"></div>
+    <div id="blocks" class="grid"></div>
+    <div id="empty" class="empty">
+      <h2>Nothing scheduled yet</h2>
+      <p>Create a block for any 3-hour interval, then add tasks to it.</p>
+      <button id="btnAdd2" class="primary" type="button">+ New block</button>
+    </div>
+  </section>
+
+  <section id="perfView" hidden>
+    <div class="ptop"><button id="btnBack" type="button">← Back to Dashboard</button><h2>Performance</h2></div>
+    <div class="filters">
+      <label>From <input type="date" id="from"></label>
+      <label>To <input type="date" id="to"></label>
+      <button type="button" data-range="7">Last 7 days</button>
+      <button type="button" data-range="30">Last 30 days</button>
+      <button type="button" data-range="0">All time</button>
+    </div>
+    <div id="stats" class="stats"></div>
+    <div class="charts">
+      <div class="panel"><h3>Daily task completion</h3><canvas id="cDaily"></canvas></div>
+      <div class="panel"><h3>Cycle 1 vs Cycle 2</h3>
+        <div class="legend"><span><i style="background:var(--blue)"></i>Cycle 1 (12 AM–12 PM)</span><span><i style="background:var(--violet)"></i>Cycle 2 (12 PM–12 AM)</span></div>
+        <canvas id="cCycle"></canvas></div>
+    </div>
+    <div class="panel"><h3>Daily history</h3><div class="tw"><table id="hist"></table></div></div>
+  </section>
+</main>
+
+<dialog id="blockDlg">
+  <form id="blockForm" autocomplete="off">
+    <h2 id="dlgTitle">New block</h2>
+    <input type="hidden" name="edit">
+    <label>Interval <select name="slot"></select></label>
+    <label>Block name <input name="bname" maxlength="60" required></label>
+    <label>Notes <textarea name="notes" rows="3" maxlength="500"></textarea></label>
+    <div class="row"><button type="button" id="dlgCancel">Cancel</button><button class="primary" type="submit">Save block</button></div>
+  </form>
+</dialog>
+
+<dialog id="dataDlg">
+  <h2>Data &amp; settings</h2>
+  <label class="chk"><input type="checkbox" id="repeat"> Repeat blocks daily (on the first open each day, copy the latest day's blocks and tasks as unchecked)</label>
+  <div class="col">
+    <button id="btnExport" type="button">Export JSON</button>
+    <button id="btnImport" type="button">Import JSON</button>
+    <input type="file" id="file" accept="application/json,.json" hidden>
+    <button id="btnWipe" class="danger" type="button">Delete all data</button>
+  </div>
+  <div class="row"><button type="button" id="dataClose">Close</button></div>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
